@@ -2,6 +2,7 @@ from restaurants.models import Restaurant
 from rest_framework.generics import (
     ListAPIView,
     RetrieveAPIView,
+    CreateAPIView,
     RetrieveUpdateAPIView,
     DestroyAPIView,
 )
@@ -9,6 +10,7 @@ from .serializers import (
     RestaurantListSerializer,
     RestaurantDetailSerializer,
     RestaurantCreateUpdateSerializer,
+    RestaurantCreateSerializer,
 )
 
 class RestaurantListView(ListAPIView):
@@ -24,7 +26,12 @@ class RestaurantDetailView(RetrieveAPIView):
 
 
 # Complete Me
-class RestaurantCreateView():
+class RestaurantCreateView(CreateAPIView):
+    serializer_class = RestaurantCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 
 class RestaurantUpdateView(RetrieveUpdateAPIView):
